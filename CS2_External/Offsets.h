@@ -14,13 +14,24 @@ namespace Offset
 	inline DWORD InventoryServices;
 	inline DWORD PlantedC4;
 
+	/*
+DWORD Health = m_iHealth 0x32C
+DWORD TeamID = m_iTeamNum 0x3BF
+DWORD IsAlive = m_bPawnIsAlive 0x7DC
+DWORD PlayerPawn = m_hPlayerPawn; 0x7D4
+DWORD iszPlayerName = m_iszPlayerName; 0x628
+DWORD EnemySensor = m_flDetectedByEnemySensorTime; 0x13DC
+DWORD GravityScale = m_flGravityScale; 0x434
+
+*/
+
 	struct
 	{
 		DWORD Health = 0x32C;
 		DWORD TeamID = 0x3BF;
-		DWORD IsAlive = 0x7C4;
-		DWORD PlayerPawn = 0x7BC;
-		DWORD iszPlayerName = 0x610;
+		DWORD IsAlive = 0x7DC;
+		DWORD PlayerPawn = 0x7D4;
+		DWORD iszPlayerName = 0x628;
 		DWORD EnemySensor = 0x13DC;
 		DWORD GravityScale = 0x434;
 	} Entity;
@@ -110,6 +121,6 @@ namespace Offset
 		const std::string PlantedC4 = "48 8B 15 ?? ?? ?? ?? FF C0 48 8D 4C 24";
 	}
 
-	// 一键更新基址
+	// 脪禄录眉赂眉脨脗禄霉脰路
 	bool UpdateOffsets();
 }
