@@ -84,4 +84,4 @@ External Cheat for CS2
 
 ## Star History
 
-[![Star History Chart]([https://api.star-history.com/svg?repos=Ssj4justdale/AimStarCS2&type=Date](https://api.star-history.com/svg?repos=Ssj4justdale/AimStarCS2&type=Date))](https://star-history.com/#CowNowK/AimStarCS2&Date)
+[![Star History Chart](https://api.star-history.com/svg?repos=ssj4justdale/AimStarCS2&type=Date)](https://star-history.com/#ssj4justdale/AimStarCS2&Date)
