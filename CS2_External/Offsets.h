@@ -17,9 +17,9 @@ namespace Offset
 	/*
 DWORD Health = m_iHealth 0x32C
 DWORD TeamID = m_iTeamNum 0x3BF
-DWORD IsAlive = m_bPawnIsAlive 0x7DC
-DWORD PlayerPawn = m_hPlayerPawn; 0x7D4
-DWORD iszPlayerName = m_iszPlayerName; 0x628
+DWORD IsAlive = m_bPawnIsAlive 0x7F4
+DWORD PlayerPawn = m_hPlayerPawn; 0x7EC
+DWORD iszPlayerName = m_iszPlayerName; 0x640
 DWORD EnemySensor = m_flDetectedByEnemySensorTime; 0x13DC
 DWORD GravityScale = m_flGravityScale; 0x434
 
@@ -29,9 +29,9 @@ DWORD GravityScale = m_flGravityScale; 0x434
 	{
 		DWORD Health = 0x32C;
 		DWORD TeamID = 0x3BF;
-		DWORD IsAlive = 0x7DC;
-		DWORD PlayerPawn = 0x7D4;
-		DWORD iszPlayerName = 0x628;
+		DWORD IsAlive = 0x7F4;
+		DWORD PlayerPawn = 0x7EC;
+		DWORD iszPlayerName = 0x640;
 		DWORD EnemySensor = 0x13DC;
 		DWORD GravityScale = 0x434;
 	} Entity;
