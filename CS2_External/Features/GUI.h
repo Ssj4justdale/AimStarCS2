@@ -34,25 +34,25 @@ namespace GUI
 					ImGui::SliderFloat(Lang::ESPtext.BoxRounding, &ESPConfig::BoxRounding, 0.0f, 15.0f, "%.1f", ImGuiSliderFlags_NoInput);
 
 				ImGui::Checkbox(Lang::ESPtext.FilledBox, &ESPConfig::FilledBox);
-				if (ImGui::IsItemClicked(1))
-				{
-					ImGui::OpenPopup("##Filledboxvis");
-				}
-				if (ImGui::BeginPopup("##Filledboxvis")) {
-					ImGui::TextUnformatted("Settings");
+				ImGui::SameLine();
+				if (ImGui::Button("..."))
+					ImGui::OpenPopup("##FilledboxSettings");
+				if (ImGui::BeginPopup("##FilledboxSettings")) {
+					ImGui::TextUnformatted(Lang::Global.FeatureSettings);
+					ImGui::ColorEdit4("Default Color", reinterpret_cast<float*>(&ESPConfig::FilledColor), ImGuiColorEditFlags_NoInputs);
+					ImGui::SliderFloat(Lang::ESPtext.FilledAlpha, &ESPConfig::BoxAlpha, 0.0f, 1.0f, "%.2f", ImGuiSliderFlags_NoInput);
 					ImGui::Checkbox(Lang::ESPtext.VisCheck, &ESPConfig::FilledVisBox);
 					ImGui::SameLine();
 					ImGui::ColorEdit4("##FilledBoxVisColor", reinterpret_cast<float*>(&ESPConfig::BoxFilledVisColor), ImGuiColorEditFlags_NoInputs);
+					ImGui::Checkbox(Lang::ESPtext.MultiColor, &ESPConfig::MultiColor);
+					ImGui::SameLine();
+					ImGui::ColorEdit4("##Color2", reinterpret_cast<float*>(&ESPConfig::FilledColor2), ImGuiColorEditFlags_NoInputs);
+					if (ESPConfig::MultiColor && ESPConfig::BoxRounding > 0.f)
+					{
+						ImGui::TextColored(ImColor(255, 59, 59, 255), Lang::ESPtext.MultiColTip);
+					}
 					ImGui::EndPopup();
-				}
-
-				ImGui::SameLine();
-				ImGui::ColorEdit4("##FilledColor", reinterpret_cast<float*>(&ESPConfig::FilledColor), ImGuiColorEditFlags_NoInputs);
-				if (ESPConfig::FilledBox)
-				{
-					ImGui::SliderFloat(Lang::ESPtext.FilledAlpha, &ESPConfig::BoxAlpha, 0.0f, 1.0f, "%.2f", ImGuiSliderFlags_NoInput);
-				}
-					
+				}	
 
 				ImGui::Checkbox(Lang::ESPtext.Skeleton, &ESPConfig::ShowBoneESP);
 				ImGui::SameLine();
@@ -84,9 +84,9 @@ namespace GUI
 				ImGui::SameLine();
 				ImGui::SetNextItemWidth(MenuConfig::ComboWidth);
 				ImGui::Combo(Lang::ESPtext.LinePosList, &MenuConfig::LinePos, "Top\0Center\0Bottom\0");
-				ImGui::Checkbox(Lang::ESPtext.VisCheck, &ESPConfig::VisibleCheck);
-				ImGui::SameLine();
-				ImGui::ColorEdit4("##EspVisCol", reinterpret_cast<float*>(&ESPConfig::VisibleColor), ImGuiColorEditFlags_NoInputs);
+				//ImGui::Checkbox(Lang::ESPtext.VisCheck, &ESPConfig::VisibleCheck);
+				//ImGui::SameLine();
+				//ImGui::ColorEdit4("##EspVisCol", reinterpret_cast<float*>(&ESPConfig::VisibleColor), ImGuiColorEditFlags_NoInputs);
 				ImGui::Checkbox(Lang::ESPtext.Preview, &ESPConfig::ShowPreview);
 
 				//			ImGui::NextColumn();
@@ -122,7 +122,7 @@ namespace GUI
 				ImGui::Checkbox(Lang::AimbotText.DrawFov, &ESPConfig::DrawFov);
 				ImGui::SameLine();
 				ImGui::ColorEdit4("##FovCircleColor", reinterpret_cast<float*>(&MenuConfig::FovCircleColor), ImGuiColorEditFlags_NoInputs);
-				ImGui::Checkbox(Lang::AimbotText.VisCheck, &MenuConfig::VisibleCheck);
+				//ImGui::Checkbox(Lang::AimbotText.VisCheck, &MenuConfig::VisibleCheck);
 				ImGui::Checkbox(Lang::AimbotText.JumpCheck, &MenuConfig::AirJump);
 
 				ImGui::SliderFloat(Lang::AimbotText.FovSlider, &AimControl::AimFov, 0.0f, 25.0f, "%.1f", ImGuiSliderFlags_Logarithmic | ImGuiColorEditFlags_NoInputs);
@@ -288,9 +288,9 @@ namespace GUI
 				ImGui::SetColumnOffset(1, 250.0f);
 
 				if (ImGui::Combo(Lang::MiscText.LanguageList, &MenuConfig::Language,
-					"English\0Danish\0German\0Polish\0Portuguese\0Russian\0Simplified Chinese\0Slovak\0"))
+					"English\0Danish\0German\0Polish\0Portuguese\0Russian\0Simplified Chinese\0Slovak\0French\0")) // Korean\0
 					Lang::ChangeLang(MenuConfig::Language);
-				if (ImGui::Combo(Lang::MiscText.ThemeList, &MenuConfig::MenuStyle, "Default\0Hacker\0Red\0"))
+				if (ImGui::Combo(Lang::MiscText.ThemeList, &MenuConfig::MenuStyle, "Default\0Hacker\0Red\0Modern Dark\0Deep Dark\0Round Gray\0"))
 					StyleChanger::UpdateSkin(MenuConfig::MenuStyle);
 				ImGui::Combo(Lang::MiscText.StyleList, &MenuConfig::WindowStyle, "Window\0");
 
@@ -303,11 +303,19 @@ namespace GUI
 				ImGui::Checkbox(Lang::MiscText.bmbTimer, &MenuConfig::bmbTimer);
 				ImGui::SameLine();
 				ImGui::ColorEdit4("##BombTimerCol", reinterpret_cast<float*>(&MenuConfig::BombTimerCol), ImGuiColorEditFlags_NoInputs);
-				ImGui::Checkbox(Lang::MiscText.SpecList, &MenuConfig::SpecList);
+				//ImGui::Checkbox(Lang::MiscText.SpecList, &MenuConfig::SpecList);
+				if (ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenDisabled))
+				{
+					ImGui::SetTooltip("Broken");
+				}
 //				ImGui::Checkbox("Invincible", &MenuConfig::infinity);
 
 				ImGui::NextColumn();
-				ImGui::Checkbox(Lang::MiscText.Bhop, &MenuConfig::BunnyHop);
+				//ImGui::Checkbox(Lang::MiscText.Bhop, &MenuConfig::BunnyHop);
+				//if (ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenDisabled))
+				//{
+				//	ImGui::SetTooltip("Bhop is currently unavailable as Valve fixes a bug that force jump");
+				//}
 				ImGui::Checkbox(Lang::MiscText.Watermark, &MenuConfig::WaterMark);
 				ImGui::Checkbox(Lang::MiscText.CheatList, &MenuConfig::CheatList);
 				ImGui::Checkbox(Lang::MiscText.TeamCheck, &MenuConfig::TeamCheck);
@@ -341,7 +349,7 @@ namespace GUI
 				Gui.OpenWebpageButton(TempText, "https://github.com/CowNowK/AimStarCS2");
 				ImGui::SameLine();
 				sprintf_s(TempText, "%s%s", ICON_FA_COMMENT_DOTS, Lang::ReadMeText.DiscordButton);
-				Gui.OpenWebpageButton(TempText, "https://discord.gg/MzbmSRaU3p");
+				Gui.OpenWebpageButton(TempText, "https://discord.gg/Sw9ejh69GC");
 				ImGui::NewLine();
 
 				ImGui::Text(Lang::ReadMeText.OffsetsTitle);
@@ -360,9 +368,9 @@ namespace GUI
 				ImGui::Text("LocalPlayerPawn:");
 				ImGui::SameLine();
 				ImGui::Text(std::to_string(Offset::LocalPlayerPawn).c_str());
-				ImGui::Text("ForceJump:");
+				ImGui::Text("PlantedC4:");
 				ImGui::SameLine();
-				ImGui::Text(std::to_string(Offset::ForceJump).c_str());
+				ImGui::Text(std::to_string(Offset::PlantedC4).c_str());
 
 				ImGui::EndTabItem();
 			}
@@ -394,8 +402,8 @@ namespace GUI
 				}
 				if (ImGui::BeginPopup("##Filledboxvis")) {
 					ImGui::TextUnformatted("Settings");
-					ImGui::Checkbox("Visible Check", &ESPConfig::FilledVisBox);
-					ImGui::SameLine();
+					// ImGui::Checkbox("Visible Check", &ESPConfig::FilledVisBox);
+					// ImGui::SameLine();
 					ImGui::ColorEdit4("##FilledBoxVisColor", reinterpret_cast<float*>(&ESPConfig::BoxFilledVisColor), ImGuiColorEditFlags_NoInputs);
 					ImGui::EndPopup();
 				}
@@ -521,7 +529,7 @@ namespace GUI
 				ImGui::Checkbox("Toggle Mode", &MenuConfig::AimToggleMode);
 
 				ImGui::Checkbox("Draw Fov", &ESPConfig::DrawFov);
-				ImGui::Checkbox("Visible Only", &MenuConfig::VisibleCheck);
+				// ImGui::Checkbox("Visible Only", &MenuConfig::VisibleCheck);
 				ImGui::Checkbox("On Ground Only", &MenuConfig::AirJump);
 
 				float FovMin = 0.1f, FovMax = 89.f;
@@ -583,11 +591,11 @@ namespace GUI
 			ImGui::Checkbox("Watermark", &MenuConfig::WaterMark);
 			ImGui::Checkbox("Cheat List", &MenuConfig::CheatList);
 			ImGui::Checkbox("HitSound", &MenuConfig::HitSound);
-			ImGui::Checkbox("Bunny Hop", &MenuConfig::BunnyHop);
+			//ImGui::Checkbox("Bunny Hop", &MenuConfig::BunnyHop);
 			ImGui::Checkbox("Bomb Timer", &MenuConfig::bmbTimer);
 			ImGui::SameLine();
 			ImGui::ColorEdit4("##BombTimerCol", reinterpret_cast<float*>(&MenuConfig::BombTimerCol), ImGuiColorEditFlags_NoInputs);
-			ImGui::Checkbox("Spectator List", &MenuConfig::SpecList);
+			//ImGui::Checkbox("Spectator List", &MenuConfig::SpecList);
 			ImGui::Checkbox("Team Check", &MenuConfig::TeamCheck);
 			ImGui::Checkbox("Bypass OBS", &MenuConfig::BypassOBS);
 
@@ -623,7 +631,7 @@ namespace GUI
 				ImGui::ColorEdit4("Targeting", reinterpret_cast<float*>(&CrosshairConfig::TargetedColor), ImGuiColorEditFlags_NoInputs);
 				ImGui::SeparatorText("Window Style");
 				ImGui::SetNextItemWidth(MenuConfig::ComboWidth);
-				if (ImGui::Combo("Theme", &MenuConfig::MenuStyle, "Default\0Hacker\0Red\0"))
+				if (ImGui::Combo("Theme", &MenuConfig::MenuStyle, "Default\0Hacker\0Red\0Modern Dark\0Deep Dark\0Round Gray\0"))
 					StyleChanger::UpdateSkin(MenuConfig::MenuStyle);
 				ImGui::SetNextItemWidth(MenuConfig::ComboWidth);
 				ImGui::Combo("Style", &MenuConfig::WindowStyle, "Window\0Collapse\0");
